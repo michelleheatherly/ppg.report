@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import { faTimes } from "@fortawesome/pro-light-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import { getTrimmedCoordinates } from "../../helpers/coordinates";
 import { useAppDispatch } from "../../hooks";
 import { UserLocation } from "./storage";
 import { removeLocation } from "./userSlice";
+import { LocationItemLink, LocationLabel } from "../../shared/locationStyles";
 
 const RemoveIcon = styled(FontAwesomeIcon)`
   margin-left: auto;
@@ -23,29 +23,12 @@ const RemoveIcon = styled(FontAwesomeIcon)`
   }
 `;
 
-const Label = styled.span`
-  transition: transform 100ms ease-out;
-
-  transform-origin: left center;
-`;
-
-const StyledLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  padding: 2em;
+const StyledLink = styled(LocationItemLink)`
   height: 4rem;
-  transition: background-color 100ms ease-out;
 
   &:hover,
-  &:focus {
-    text-decoration: none;
-    background-color: rgba(0, 0, 0, 0.1);
-
-    ${Label} {
-      transform: scale(1.015);
-      font-weight: 500;
-    }
-
+  &:focus,
+  &:focus-visible {
     ${RemoveIcon} {
       opacity: 1;
       transform: scale(1);
@@ -69,7 +52,7 @@ export default function Location({ location }: LocationProps) {
 
   return (
     <StyledLink to={`/${getTrimmedCoordinates(location.lat, location.lon)}`}>
-      <Label>{location.label}</Label>{" "}
+      <LocationLabel>{location.label}</LocationLabel>
       <RemoveIcon icon={faTimes} onClick={(e) => remove(e, location)} />
     </StyledLink>
   );

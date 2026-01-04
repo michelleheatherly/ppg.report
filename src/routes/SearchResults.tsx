@@ -2,8 +2,13 @@ import { AxiosError } from "axios";
 import Search from "../search/Search";
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../shared/Loading";
+import {
+  LocationContainer,
+  LocationItemLink,
+  LocationLabel,
+} from "../shared/locationStyles";
 import { useTranslation } from "react-i18next";
 import { getTrimmedCoordinates } from "../helpers/coordinates";
 import { searchLocations } from "../services/geocode";
@@ -37,16 +42,10 @@ const Subtitle = styled.p`
   font-size: 0.95rem;
 `;
 
-const ResultsContainer = styled.div`
+const ResultsContainer = styled(LocationContainer)`
   width: 100%;
-  background-color: rgba(211, 211, 211, 0.043);
-  border-radius: 1em;
-  box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.7);
-  padding: 0.5rem 0;
-  backdrop-filter: blur(5px);
 
   @media (max-width: 600px) {
-    border-radius: 0;
     margin-left: -1rem;
     margin-right: -1rem;
     width: calc(100% + 2rem);
@@ -56,11 +55,6 @@ const ResultsContainer = styled.div`
 const ResultList = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const ResultLabel = styled.span`
-  transition: transform 100ms ease-out;
-  transform-origin: left center;
 `;
 
 const ResultMeta = styled.span`
@@ -74,28 +68,6 @@ const ResultText = styled.div`
   flex-direction: column;
   justify-content: center;
   gap: 0.25rem;
-`;
-
-const ResultLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  padding: 2em;
-  min-height: 4rem;
-  transition: background-color 100ms ease-out;
-
-  color: inherit;
-  text-decoration: none !important;
-
-  &:hover,
-  &:focus,
-  &:focus-visible {
-    background-color: rgba(0, 0, 0, 0.1);
-
-    ${ResultLabel} {
-      transform: scale(1.015);
-      font-weight: 500;
-    }
-  }
 `;
 
 const Message = styled.p`
@@ -187,15 +159,15 @@ export default function SearchResults() {
               );
 
               return (
-                <ResultLink
+                <LocationItemLink
                   key={`${result.lat}-${result.lon}`}
                   to={`/${getTrimmedCoordinates(result.lat, result.lon)}`}
                 >
                   <ResultText>
-                    <ResultLabel>{result.label}</ResultLabel>
+                    <LocationLabel>{result.label}</LocationLabel>
                     <ResultMeta>{trimmed}</ResultMeta>
                   </ResultText>
-                </ResultLink>
+                </LocationItemLink>
               );
             })}
           </ResultList>
