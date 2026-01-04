@@ -11,6 +11,8 @@
   "WindGustAsOneLetter": "R",
   "WindSpeedGustingToWindSpeed": "Vent {{baseWindSpeed}} avec des rafales jusqu'à {{gustWindSpeed}}",
   "Search locations": "Chercher des lieux",
+  "Displaying {{count}} results for \"{{query}}\"":
+    "Affichage de {{count}} résultats pour \"{{query}}\"",
   "Terms & Privacy": "Conditions & Confidentialité",
   "Star on Github": "<0/> sur Github",
   "Fly Warning": "Attention ! Vol à vos risques.",

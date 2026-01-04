@@ -1,13 +1,10 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { getTrimmedCoordinates } from "../helpers/coordinates";
 import { useAppSelector } from "../hooks";
-import { search } from "../services/geocode";
 import { isTouchDevice } from "../helpers/device";
 import { outputP3ColorFromRGB } from "../helpers/colors";
 import SubmitButton, { State } from "./SubmitButton";
-import { AxiosError } from "axios";
 import { useTranslation } from "react-i18next";
 
 const Container = styled.div`
@@ -98,33 +95,18 @@ export default function Search({ ...rest }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  async function submit(e: React.FormEvent<HTMLFormElement>) {
+  function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!query.trim()) return;
+    const trimmed = query.trim();
+    if (!trimmed) return;
 
-    setLoading(true);
-
-    try {
-      const { lat, lon } = await search(query);
-
-      navigate(`/${getTrimmedCoordinates(lat, lon)}`);
-    } catch (e) {
-      if (e instanceof AxiosError) {
-        setError("Please check your internet connection and try again.");
-      } else {
-        setError("Nothing found, please try again.");
-      }
-      setLoading(false);
-      throw e;
-    }
+    navigate(`/search?q=${encodeURIComponent(trimmed)}`);
   }
 
   let state = State.Location;
   if (query) state = State.Submit;
-  if (loading) state = State.Loading;
 
   return (
     <>
@@ -141,7 +123,6 @@ export default function Search({ ...rest }) {
               setQuery(e.target.value);
               setError("");
             }}
-            disabled={loading}
           />
           <SubmitButton
             state={state}

@@ -11,6 +11,8 @@
   "WindGustAsOneLetter": "B",
   "WindSpeedGustingToWindSpeed": "Wind {{baseWindSpeed}} Böen bis {{gustWindSpeed}}",
   "Search locations": "Standorte suchen",
+  "Displaying {{count}} results for \"{{query}}\"":
+    "{{count}} Ergebnisse anzeigen für \"{{query}}\"",
   "Terms & Privacy": "Bedingungen & Datenschutz",
   "Star on Github": "<0/> auf Github bewerten",
   "Fly Warning": "Achtung! Fliegen auf eigene Gefahr.",

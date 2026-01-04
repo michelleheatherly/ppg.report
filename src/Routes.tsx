@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router";
 import Home from "./routes/Home";
 import NotFound from "./routes/NotFound";
+import SearchResults from "./routes/SearchResults";
 import Terms from "./routes/Terms";
 import Loading from "./shared/Loading";
 
@@ -11,6 +12,8 @@ export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/search" element={<SearchResults />} />
+      <Route path="/terms" element={<Terms />} />
       <Route
         path="/:location"
         element={
@@ -19,7 +22,6 @@ export default function AppRoutes() {
           </Suspense>
         }
       />
-      <Route path="/terms" element={<Terms />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

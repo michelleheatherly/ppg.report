@@ -11,6 +11,8 @@
   "WindGustAsOneLetter": "G",
   "WindSpeedGustingToWindSpeed": "Wind {{baseWindSpeed}} gusting to {{gustWindSpeed}}",
   "Search locations": "Search locations",
+  "Displaying {{count}} results for \"{{query}}\"":
+    "Displaying {{count}} results for \"{{query}}\"",
   "Terms & Privacy": "Terms & Privacy",
   "Star on Github": "<0/> on Github",
   "Fly Warning": "Warning! Fly at your own risk.",

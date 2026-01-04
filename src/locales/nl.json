@@ -11,6 +11,8 @@
   "WindGustAsOneLetter": "V",
   "WindSpeedGustingToWindSpeed": "Wind {{baseWindSpeed}} met windstoten tot {{gustWindSpeed}}",
   "Search locations": "Locaties zoeken",
+  "Displaying {{count}} results for \"{{query}}\"":
+    "{{count}} resultaten tonen voor \"{{query}}\"",
   "Terms & Privacy": "Voorwaarden & Privacy",
   "Star on Github": "<0/> op Github",
   "Fly Warning": "Let op! Vlieg op eigen risico.",
