@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import Search from "../search/Search";
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../shared/Loading";
 import {
@@ -44,6 +44,7 @@ const Subtitle = styled.p`
 
 const ResultsContainer = styled(LocationContainer)`
   width: 100%;
+  padding-top: 0;
 
   @media (max-width: 600px) {
     margin-left: -1rem;
@@ -70,6 +71,56 @@ const ResultText = styled.div`
   gap: 0.25rem;
 `;
 
+const FilterRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+
+  @media (max-width: 600px) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+`;
+
+const FilterInput = styled.input`
+  flex: 1;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 0.35rem 0;
+  background: transparent;
+  color: inherit;
+  font-size: 0.95rem;
+
+  &:focus {
+    outline: none;
+    border-bottom-color: var(--softText);
+  }
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+`;
+
+const FilterMeta = styled.span`
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--softText);
+`;
+
+const FilterTitle = styled.span`
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--softText);
+  flex-shrink: 0;
+`;
+
 const Message = styled.p`
   color: var(--softText);
   text-align: center;
@@ -89,6 +140,7 @@ export default function SearchResults() {
   const [results, setResults] = useState<Geocode[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [filterText, setFilterText] = useState("");
 
   useEffect(() => {
     if (!query) {
@@ -124,6 +176,28 @@ export default function SearchResults() {
     };
   }, [query, navigate]);
 
+  useEffect(() => {
+    setFilterText("");
+  }, [query]);
+
+  const filteredResults = useMemo(() => {
+    const normalizedFilter = filterText.trim().toLowerCase();
+    if (!normalizedFilter) return results;
+
+    return results.filter((result) =>
+      result.label.toLowerCase().includes(normalizedFilter),
+    );
+  }, [filterText, results]);
+
+  const filterActive = Boolean(filterText.trim());
+  const filterSummary =
+    results.length > 0
+      ? t("{{shown}} of {{total}} shown", {
+          shown: filteredResults.length,
+          total: results.length,
+        })
+      : "";
+
   const resultSubtitle =
     !loading && !error && query
       ? t("Displaying {{count}} results for \"{{query}}\"", {
@@ -151,26 +225,46 @@ export default function SearchResults() {
         <Message>{error}</Message>
       ) : (
         <ResultsContainer>
-          <ResultList>
-            {results.map((result) => {
-              const trimmed = getTrimmedCoordinates(result.lat, result.lon).replace(
-                ",",
-                ", ",
-              );
+          {results.length > 0 && (
+            <FilterRow>
+              <FilterTitle>{t("Filter")}</FilterTitle>
+              <FilterInput
+                value={filterText}
+                onChange={(event) => setFilterText(event.target.value)}
+                placeholder={t("Search results")}
+              />
+              <FilterMeta>{filterSummary}</FilterMeta>
+            </FilterRow>
+          )}
 
-              return (
-                <LocationItemLink
-                  key={`${result.lat}-${result.lon}`}
-                  to={`/${getTrimmedCoordinates(result.lat, result.lon)}`}
-                >
-                  <ResultText>
-                    <LocationLabel>{result.label}</LocationLabel>
-                    <ResultMeta>{trimmed}</ResultMeta>
-                  </ResultText>
-                </LocationItemLink>
-              );
-            })}
-          </ResultList>
+          {filteredResults.length === 0 ? (
+            <Message>
+              {filterActive
+                ? t("No results match that filter.")
+                : t("No locations available for this search.")}
+            </Message>
+          ) : (
+            <ResultList>
+              {filteredResults.map((result) => {
+                const trimmed = getTrimmedCoordinates(result.lat, result.lon).replace(
+                  ",",
+                  ", ",
+                );
+
+                return (
+                  <LocationItemLink
+                    key={`${result.lat}-${result.lon}`}
+                    to={`/${getTrimmedCoordinates(result.lat, result.lon)}`}
+                  >
+                    <ResultText>
+                      <LocationLabel>{result.label}</LocationLabel>
+                      <ResultMeta>{trimmed}</ResultMeta>
+                    </ResultText>
+                  </LocationItemLink>
+                );
+              })}
+            </ResultList>
+          )}
         </ResultsContainer>
       )}
     </Page>

@@ -13,6 +13,11 @@
   "Search locations": "Chercher des lieux",
   "Displaying {{count}} results for \"{{query}}\"":
     "Affichage de {{count}} résultats pour \"{{query}}\"",
+  "Filter": "Filtrer",
+  "Search results": "Rechercher des résultats",
+  "{{shown}} of {{total}} shown": "{{shown}} sur {{total}} affichés",
+  "No results match that filter.": "Aucun résultat ne correspond à ce filtre.",
+  "No locations available for this search.": "Aucun lieu disponible pour cette recherche.",
   "Terms & Privacy": "Conditions & Confidentialité",
   "Star on Github": "<0/> sur Github",
   "Fly Warning": "Attention ! Vol à vos risques.",
