@@ -194,7 +194,6 @@ export default function SearchResults() {
     );
   }, [filterText, results]);
 
-  const filterActive = Boolean(filterText.trim());
   const filterSummary =
     results.length > 0
       ? t("{{shown}} of {{total}} shown", {
@@ -243,11 +242,7 @@ export default function SearchResults() {
           )}
 
           {filteredResults.length === 0 ? (
-            <Message>
-              {filterActive
-                ? t("No results match that filter.")
-                : t("No locations available for this search.")}
-            </Message>
+            <Message>{t("No results match that filter.")}</Message>
           ) : (
             <ResultList>
               {filteredResults.map((result) => {
