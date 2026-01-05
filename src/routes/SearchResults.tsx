@@ -89,20 +89,25 @@ const FilterRow = styled.div`
 
 const FilterInput = styled.input`
   flex: 1;
-  border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-  padding: 0.35rem 0;
-  background: transparent;
-  color: inherit;
+  height: 2.4rem;
+  padding: 0 0.9rem;
   font-size: 0.95rem;
+  color: var(--text);
+  font-family: inherit;
+  font-weight: 200;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.4rem;
+  background: transparent;
+  outline: none;
+  margin-right: 0.5rem;
 
   &:focus {
-    outline: none;
-    border-bottom-color: var(--softText);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
   }
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.5);
   }
 `;
 
