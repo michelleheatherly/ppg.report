@@ -89,6 +89,7 @@ const FilterRow = styled.div`
 
 const FilterInput = styled.input`
   flex: 1;
+  min-width: 0;
   height: 2.4rem;
   padding: 0 0.9rem;
   font-size: 0.95rem;
@@ -99,7 +100,19 @@ const FilterInput = styled.input`
   border-radius: 0.4rem;
   background: transparent;
   outline: none;
-  margin-right: 0.5rem;
+
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    cursor: pointer;
+  }
+  
+  &::-moz-clear {
+    cursor: pointer;
+  }
+  
+  &::-ms-clear {
+    cursor: pointer;
+  }
 
   &:focus {
     border-color: rgba(255, 255, 255, 0.45);
@@ -233,6 +246,7 @@ export default function SearchResults() {
             <FilterRow>
               <FilterTitle>{t("Filter")}</FilterTitle>
               <FilterInput
+                type="search"
                 value={filterText}
                 onChange={(event) => setFilterText(event.target.value)}
                 placeholder={t("Search results")}
